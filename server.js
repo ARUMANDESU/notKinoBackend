@@ -11,6 +11,8 @@ const port = process.env.PORT || 4000;
 
 dotenv.config();
 mongoose.set("strictQuery", false);
+app.use(express.json());
+app.use(express.urlencoded());
 app.use(router);
 app.use("/user/", userRouter);
 app.use("/movie/", movieRouter);
