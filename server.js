@@ -3,8 +3,6 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
 const router = require("./routers/router");
-const userRouter = require("./routers/userRouter");
-const movieRouter = require("./routers/movieRouter");
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -14,8 +12,6 @@ mongoose.set("strictQuery", false);
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(router);
-app.use("/user/", userRouter);
-app.use("/movie/", movieRouter);
 
 mongoose
     .connect(process.env.DB_URL)

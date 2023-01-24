@@ -14,7 +14,8 @@ const Movie = new Schema({
         },
     ],
     comments: [
-        {   required:false,
+        {
+            required: false,
             date: { type: Date, required: true, default: Date.now() },
             user_id: { type: String, required: true },
             text: { type: String, required: true },
