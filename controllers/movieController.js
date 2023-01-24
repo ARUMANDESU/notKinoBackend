@@ -25,8 +25,13 @@ class movieController {
                     return;
                 }
 
-                const movie = await Movie.create(v.inputs);
-                res.json(movie.toJSON());
+                await Movie.create(v.inputs)
+                    .then((movie) => {
+                        res.json(movie);
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
             });
         } catch (e) {
             console.log(e);
@@ -36,8 +41,13 @@ class movieController {
     async getMovieHandler(req, res) {
         try {
             const movie_id = req.params.id;
-            const movie = await Movie.findOne({ _id: movie_id });
-            res.json(movie.toJSON());
+            await Movie.findOne({ _id: movie_id })
+                .then((movie) => {
+                    res.json(movie);
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
         } catch (e) {
             console.log(e);
             res.status(400).json({ message: "Error" });
