@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
 
 const router = require("./routers/router");
 
@@ -10,6 +12,7 @@ const port = process.env.PORT || 4000;
 
 dotenv.config();
 mongoose.set("strictQuery", false);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(
     cors({
         origin: process.env.FRONT_URL,
