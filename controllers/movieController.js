@@ -98,7 +98,18 @@ class movieController {
 
     async listMovieHandler(req, res) {
         try {
+            let limit = req.query.limit || 10;
+            delete req.query.limit;
+
+            req.query.rate = req.query.rate.split("-");
+            req.query.$and = [
+                { "rate.kp": { $gte: req.query.rate[0] } },
+                { "rate.kp": { $lte: req.query.rate[1] } },
+            ];
+            delete req.query.rate;
+
             await Movie.find(req.query)
+                .limit(parseInt(limit))
                 .then((movies) => {
                     res.json(movies);
                 })
