@@ -25,3 +25,12 @@ npm run start
 or
 nodemon server.js
 ```
+
+### .env file
+```.dotenv
+DB_URL=
+ROOT_URL=
+MAILER_USERNAME=
+MAILER_PASSWORD=
+SECRET=
+```

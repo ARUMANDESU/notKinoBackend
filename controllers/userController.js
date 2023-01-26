@@ -58,11 +58,14 @@ class userController {
         try {
             const { username, password } = req.body;
             console.log(req.body);
-            const user = await User.findOne({ username: username });
+            const user = await User.findOne({
+                username: username,
+                activated: true,
+            });
             if (!user) {
                 return res
                     .status(400)
-                    .json({ message: "Пользователь ${username} не найден" });
+                    .json({ message: `Пользователь ${username} не найден` });
             }
             const validPassword = bcrypt.compareSync(
                 password,
