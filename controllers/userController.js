@@ -1,18 +1,9 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
-const dotenv = require("dotenv");
-const jwt = require("jsonwebtoken");
-dotenv.config();
 const mailer = require("../utils/mailer/nodemailer");
-const secret = process.env.SECRET;
-const generateAccessToken = (id, roles) => {
-    const payload = {
-        id,
-        roles,
-    };
-    return jwt.sign(payload, secret, { expiresIn: "24h" });
-};
+const { generateAccessToken } = require("../utils/jwt");
+
 class userController {
     async getUserHandler(req, res) {
         try {
@@ -26,6 +17,7 @@ class userController {
                 });
         } catch (e) {
             console.log(e);
+            res.status(400).json({ message: "Error" });
         }
     }
     async registerUserHandler(req, res) {
@@ -51,6 +43,7 @@ class userController {
                 .catch((err) => console.error(err.message));
         } catch (e) {
             console.log(e);
+            res.status(400).json({ message: "Error" });
         }
     }
 
@@ -80,6 +73,7 @@ class userController {
             return res.json({ token });
         } catch (e) {
             console.log(e);
+            res.status(400).json({ message: "Error" });
         }
     }
 
@@ -103,6 +97,7 @@ class userController {
                 .catch((err) => console.error(err.message));
         } catch (e) {
             console.log(e);
+            res.status(400).json({ message: "Error" });
         }
     }
 }

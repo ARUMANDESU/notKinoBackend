@@ -92,6 +92,7 @@ class movieController {
                 });
         } catch (e) {
             console.log(e);
+            res.status(400).json({ message: "Error" });
         }
     }
 
@@ -107,6 +108,7 @@ class movieController {
                 });
         } catch (e) {
             console.log(e);
+            res.status(400).json({ message: "Error" });
         }
     }
 
@@ -157,6 +159,7 @@ class movieController {
             });
         } catch (e) {
             console.log(e);
+            res.status(400).json({ message: "Error" });
         }
     }
 }
