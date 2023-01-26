@@ -1,5 +1,6 @@
 const Movie = require("../models/movie");
 const { Validator } = require("node-input-validator");
+const axios = require("axios");
 class movieController {
     async createMovieHandler(req, res) {
         try {
@@ -104,6 +105,56 @@ class movieController {
                     console.log(e);
                     res.status(400);
                 });
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async importFromKP(req, res) {
+        try {
+            const { rate, limit } = req.query;
+            const url = `https://api.kinopoisk.dev/movie/?token=${process.env.KINOPOISK_API_TOKEN}&rate=${rate}&limit=${limit}`;
+            axios.get(url).then(async (response) => {
+                let movies = [];
+                response.data.docs.map((data) => {
+                    const acceptable =
+                        data.name &&
+                        data.description &&
+                        data.year &&
+                        data.movieLength &&
+                        data.votes.kp &&
+                        data.votes.imdb &&
+                        data.rating &&
+                        data.rating.imdb &&
+                        data.rating.kp &&
+                        data.poster &&
+                        data.poster.url &&
+                        data.poster.previewUrl;
+
+                    if (acceptable) {
+                        const temp = {
+                            title: data.name,
+                            description: data.description,
+                            rate: data.rating,
+                            year: data.year,
+                            length: data.movieLength,
+                            votes: data.votes,
+                            poster: {
+                                url: data.poster.url,
+                                previewUrl: data.poster.previewUrl,
+                            },
+                            watchability: {
+                                items: data.watchability.items,
+                            },
+                            type: data.type,
+                        };
+
+                        movies.push(temp);
+                    }
+                });
+                res.json(movies);
+                await Movie.insertMany(movies);
+            });
         } catch (e) {
             console.log(e);
         }

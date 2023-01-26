@@ -3,16 +3,33 @@ const { Schema, model } = require("mongoose");
 const Movie = new Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
-    rate: { type: Number, required: true, default: 0 },
-    country: { type: String, required: true },
-    length: { type: Number, required: true },
-    actors: [
-        {
-            name: { type: String, required: true },
-            img_url: { type: String, required: true },
-            url: { type: String, required: true },
+    rate: {
+        kp: { type: Number, required: true, default: 0 },
+        imdb: { type: Number, required: true, default: 0 },
+    },
+    votes: {
+        kp: { type: Number, required: true, default: 0 },
+        imdb: { type: Number, required: true, default: 0 },
+    },
+    watchability: {
+        items: {
+            type: [
+                {
+                    logo: { url: { type: String, required: true } },
+                    name: { type: String, required: true },
+                    url: { type: String, required: true },
+                },
+            ],
+            required: false,
         },
-    ],
+    },
+    length: { type: Number, required: true },
+    year: { type: Number, required: true },
+    type: { type: String, required: true },
+    poster: {
+        url: { type: String },
+        previewUrl: { type: String },
+    },
     comments: [
         {
             required: false,
