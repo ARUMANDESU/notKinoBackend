@@ -2,9 +2,17 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const dotenv = require("dotenv");
+const jwt = require("jsonwebtoken");
 dotenv.config();
 const mailer = require("../utils/mailer/nodemailer");
-const { response } = require("express");
+const secret = process.env.SECRET;
+const generateAccessToken = (id, roles) => {
+    const payload = {
+        id,
+        roles,
+    };
+    return jwt.sign(payload, secret, { expiresIn: "24h" });
+};
 class userController {
     async getUserHandler(req, res) {
         try {
@@ -45,6 +53,33 @@ class userController {
             console.log(e);
         }
     }
+
+    async loginUserHandler(req, res) {
+        try {
+            const { username, password } = req.body;
+            console.log(req.body);
+            const user = await User.findOne({ username: username });
+            if (!user) {
+                return res
+                    .status(400)
+                    .json({ message: "Пользователь ${username} не найден" });
+            }
+            const validPassword = bcrypt.compareSync(
+                password,
+                user.hashed_password
+            );
+            if (!validPassword) {
+                return res
+                    .status(400)
+                    .json({ message: "Введен неверный пароль" });
+            }
+            const token = generateAccessToken(user._id, user.roles);
+            return res.json({ token });
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     async activateAccountHandler(req, res) {
         try {
             const { email, token } = req.query;
