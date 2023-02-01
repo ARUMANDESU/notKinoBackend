@@ -100,6 +100,16 @@ class userController {
             res.status(400).json({ message: "Error" });
         }
     }
+
+    async addToFavorites(req, res) {
+        try {
+            const favorite = req.params.id;
+            res.json(req.body);
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({ message: "Error" });
+        }
+    }
 }
 
 module.exports = new userController();

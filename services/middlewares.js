@@ -10,6 +10,7 @@ function isAuthorizedMiddleware() {
             if (!decodedData) {
                 res.status(403).json({ message: "User not authorized!" });
             }
+            res.body.user.id = decodedData.id;
             next();
         } catch (e) {
             console.log(e);
