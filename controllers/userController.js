@@ -90,7 +90,10 @@ class userController {
                     activateToken: token,
                     activateExpires: { $gte: Date.now() },
                 },
-                { $set: { activated: true } }
+                {
+                    $set: { activated: true },
+                    $unset: [{ activateToken: 1 }, { activateExpires: 1 }],
+                }
             )
                 .then((response) => {
                     if (response) {

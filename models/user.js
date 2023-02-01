@@ -12,9 +12,10 @@ const User = new Schema({
     favorites: {
         type: [
             {
-                movie_id: { type: String, unique: true },
+                movie_id: { type: String },
             },
         ],
+        default: [],
     },
 });
 
