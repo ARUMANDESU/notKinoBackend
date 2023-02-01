@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Movie = require("../models/movie");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const mailer = require("../utils/mailer/nodemailer");
@@ -8,9 +9,11 @@ class userController {
     async getUserHandler(req, res) {
         try {
             const user_name = req.params.username;
-            await User.find({ username: user_name })
+            await User.findOne({ username: user_name })
                 .then((user) => {
-                    res.json(user);
+                    const { _id, username, email, roles, favorites } = user;
+                    const output = { _id, username, email, roles, favorites };
+                    res.json(output);
                 })
                 .catch((e) => {
                     console.log(e);
@@ -103,8 +106,18 @@ class userController {
 
     async addToFavorites(req, res) {
         try {
-            const favorite = req.params.id;
-            res.json(req.body);
+            const { id, roles } = req.body.user;
+            const movie_id = req.params.id;
+            const movie = await Movie.findOne({ _id: movie_id });
+            if (!movie) {
+                res.status(400).json({ message: "Movie is not exist!" });
+            }
+            await User.findOneAndUpdate(
+                { _id: id },
+                { $push: { favorites: { movie_id: movie_id } } }
+            ).then((user) => {
+                res.json({ successful: true });
+            });
         } catch (e) {
             console.log(e);
             res.status(400).json({ message: "Error" });

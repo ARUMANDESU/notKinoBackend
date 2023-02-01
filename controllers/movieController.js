@@ -58,15 +58,6 @@ class movieController {
     async updateMovieHandler(req, res) {
         try {
             const movie_id = req.params.id;
-            /*            const {
-                title,
-                length,
-                rate,
-                description,
-                country,
-                actors,
-                comments,
-            } = req.body;*/
 
             await Movie.updateOne({ _id: movie_id }, { $set: req.body })
                 .then((movie) => {
@@ -101,12 +92,14 @@ class movieController {
             let limit = req.query.limit || 10;
             delete req.query.limit;
 
-            req.query.rate = req.query.rate.split("-");
-            req.query.$and = [
-                { "rate.kp": { $gte: req.query.rate[0] } },
-                { "rate.kp": { $lte: req.query.rate[1] } },
-            ];
-            delete req.query.rate;
+            if (req.query.rate) {
+                req.query.rate = req.query.rate.split("-");
+                req.query.$and = [
+                    { "rate.kp": { $gte: req.query.rate[0] } },
+                    { "rate.kp": { $lte: req.query.rate[1] } },
+                ];
+                delete req.query.rate;
+            }
 
             await Movie.find(req.query)
                 .limit(parseInt(limit))

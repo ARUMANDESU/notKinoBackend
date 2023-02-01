@@ -9,6 +9,13 @@ const User = new Schema({
     activated: { type: Boolean, default: false },
     activateToken: String,
     activateExpires: Date,
+    favorites: {
+        type: [
+            {
+                movie_id: String,
+            },
+        ],
+    },
 });
 
 module.exports = model("User", User);

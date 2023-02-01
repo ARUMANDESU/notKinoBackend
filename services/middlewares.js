@@ -7,14 +7,15 @@ function isAuthorizedMiddleware() {
         }
         try {
             const decodedData = decodeAccessToken(req);
-            if (!decodedData) {
+
+            if (typeof decodedData == Object) {
                 res.status(403).json({ message: "User not authorized!" });
             }
-            res.body.user.id = decodedData.id;
+            req.body.user = { id: decodedData.id, roles: decodedData.roles };
             next();
         } catch (e) {
             console.log(e);
-            res.status(403).json({ message: "User not authorized!" });
+            res.status(403).json({ message: `error: ${e}` });
         }
     };
 }

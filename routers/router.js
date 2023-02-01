@@ -4,8 +4,9 @@ const movieRouter = require("./movieRouter");
 
 const router = express.Router();
 
-router.use("/user/", userRouter);
 router.use("/movie/", movieRouter);
+router.use("/user/", userRouter);
+
 router.get("/", (req, res) => {
     res.send("Hello World!");
 });

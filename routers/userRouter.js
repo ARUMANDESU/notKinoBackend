@@ -8,5 +8,9 @@ router.get("/:username", userController.getUserHandler);
 
 router.post("/register", userController.registerUserHandler);
 router.post("/login", userController.loginUserHandler);
-router.post("/addMovie", isAuthorizedMiddleware, userController.addToFavorites);
+router.post(
+    "/addMovie/:id",
+    isAuthorizedMiddleware(),
+    userController.addToFavorites
+);
 module.exports = router;
