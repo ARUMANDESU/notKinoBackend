@@ -11,9 +11,7 @@ class userController {
             const user_name = req.params.username;
             await User.findOne({ username: user_name })
                 .then((user) => {
-                    const { _id, username, email, roles, favorites } = user;
-                    const output = { _id, username, email, roles, favorites };
-                    res.json(output);
+                    res.json(userOutput(user));
                 })
                 .catch((e) => {
                     console.log(e);
@@ -73,8 +71,9 @@ class userController {
                     .json({ message: "Введен неверный пароль" });
             }
             const token = generateAccessToken(user._id, user.roles);
+
             res.header("Authorization", `Bearer ${token}`);
-            return res.json({ token });
+            return res.json(userOutput(user));
         } catch (e) {
             console.log(e);
             res.status(400).json({ message: "Error" });
@@ -127,6 +126,11 @@ class userController {
             res.status(400).json({ message: `Error: ${e}`, successful: false });
         }
     }
+}
+
+function userOutput(user) {
+    const { _id, username, email, roles, favorites } = user;
+    return { _id, username, email, roles, favorites };
 }
 
 module.exports = new userController();
