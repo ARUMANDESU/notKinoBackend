@@ -51,7 +51,6 @@ class userController {
     async loginUserHandler(req, res) {
         try {
             const { username, password } = req.body;
-            console.log(req.body);
             const user = await User.findOne({
                 username: username,
                 activated: true,
