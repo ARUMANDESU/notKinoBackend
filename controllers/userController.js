@@ -73,6 +73,7 @@ class userController {
                     .json({ message: "Введен неверный пароль" });
             }
             const token = generateAccessToken(user._id, user.roles);
+            res.header("Authorization", `Bearer ${token}`);
             return res.json({ token });
         } catch (e) {
             console.log(e);
