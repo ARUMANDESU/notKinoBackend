@@ -72,29 +72,15 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": ""
                 }
               }
             }
           },
           "400": {
             "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Pet not found"
-          },
-          "405": {
-            "description": "Validation exception"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       },
       "post": {
         "tags": [
@@ -113,12 +99,12 @@
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/Pet"
+                "$ref": ""
               }
             },
             "application/x-www-form-urlencoded": {
               "schema": {
-                "$ref": "#/components/schemas/Pet"
+                "$ref": ""
               }
             }
           },
@@ -130,12 +116,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": "#/components/schemas/Movie"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": ""
                 }
               }
             }
@@ -143,15 +129,7 @@
           "405": {
             "description": "Invalid input"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       }
     },
     "/movie/kp": {
@@ -159,25 +137,25 @@
         "tags": [
           "movie"
         ],
-        "summary": "Add a new pet to the store",
-        "description": "Add a new pet to the store",
-        "operationId": "addPet",
+        "summary": "imports movies from another db",
+        "description": "imports movies from kinopoisk database in json-format",
+        "operationId": "addMovies",
         "requestBody": {
           "description": "Create a new pet in the store",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Pet"
+                "$ref": ""
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/Pet"
+                "$ref": ""
               }
             },
             "application/x-www-form-urlencoded": {
               "schema": {
-                "$ref": "#/components/schemas/Pet"
+                "$ref": ""
               }
             }
           },
@@ -189,12 +167,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": ""
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": ""
                 }
               }
             }
@@ -218,25 +196,15 @@
         "tags": [
           "movie"
         ],
-        "summary": "Add a new pet to the store",
-        "description": "Add a new pet to the store",
-        "operationId": "addPet",
+        "summary": "Updates movie ID",
+        "description": "",
+        "operationId": "patchMovie",
         "requestBody": {
           "description": "Create a new pet in the store",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
+                "$ref": ""
               }
             }
           },
@@ -248,12 +216,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": ""
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": ""
                 }
               }
             }
@@ -261,39 +229,21 @@
           "405": {
             "description": "Invalid input"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       },
       "delete": {
         "tags": [
           "movie"
         ],
-        "summary": "Add a new pet to the store",
-        "description": "Add a new pet to the store",
-        "operationId": "addPet",
+        "summary": "Finds and delete existing movie",
+        "description": "",
+        "operationId": "deleteMovie",
         "requestBody": {
           "description": "Create a new pet in the store",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
+                "$ref": ""
               }
             }
           },
@@ -305,12 +255,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": ""
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": ""
                 }
               }
             }
@@ -318,39 +268,21 @@
           "405": {
             "description": "Invalid input"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       },
       "get": {
         "tags": [
           "movie"
         ],
-        "summary": "Add a new pet to the store",
-        "description": "Add a new pet to the store",
-        "operationId": "addPet",
+        "summary": "Checks if movie exists",
+        "description": "",
+        "operationId": "getMovie",
         "requestBody": {
           "description": "Create a new pet in the store",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
+                "$ref": ""
               }
             }
           },
@@ -362,12 +294,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": ""
                 }
               }
             }
@@ -375,41 +302,24 @@
           "405": {
             "description": "Invalid input"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       }
     },
+
     "/user/register": {
       "post": {
         "tags": [
           "user"
         ],
-        "summary": "insert new movie",
-        "description": "insert new movie",
-        "operationId": "addMovie",
+        "summary": "Register new user",
+        "description": "Register new user and save it in database",
+        "operationId": "registerUser",
         "requestBody": {
-          "description": "insert new movie",
+          "description": "Make new user",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Movie"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
+                "$ref": "#/components/schemas/User"
               }
             }
           },
@@ -421,12 +331,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": ""
                 }
               }
             }
@@ -434,15 +339,7 @@
           "405": {
             "description": "Invalid input"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       }
     },
     "/user/:username": {
@@ -450,25 +347,28 @@
         "tags": [
           "user"
         ],
-        "summary": "Add a new pet to the store",
-        "description": "Add a new pet to the store",
-        "operationId": "addPet",
+        "summary": "Checks if the user exists",
+        "description": "",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "Write username",
+            "required": false,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "default": "solo"
+            }
+          }
+        ],
+        "operationId": "getUser",
         "requestBody": {
-          "description": "Create a new pet in the store",
+          "description": "Checking if the user exists in database by it's username",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
+                "$ref": "#/components/schemas/getUser"
               }
             }
           },
@@ -480,12 +380,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": ""
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": ""
                 }
               }
             }
@@ -509,42 +409,16 @@
         "tags": [
           "user"
         ],
-        "summary": "Add a new pet to the store",
-        "description": "Add a new pet to the store",
-        "operationId": "addPet",
-        "requestBody": {
-          "description": "Create a new pet in the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            }
-          },
-          "required": true
-        },
+        "summary": "Activates account",
+        "description": "Sends JWT token",
+        "operationId": "activate",
         "responses": {
           "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": ""
                 }
               }
             }
@@ -552,15 +426,7 @@
           "405": {
             "description": "Invalid input"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       }
     },
     "/user/login": {
@@ -568,25 +434,83 @@
         "tags": [
           "user"
         ],
-        "summary": "Add a new pet to the store",
-        "description": "Add a new pet to the store",
-        "operationId": "addPet",
+        "summary": "Authorization",
+        "operationId": "Login",
         "requestBody": {
-          "description": "Create a new pet in the store",
+          "description": "Pass username and password in json format",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Pet"
+                "$ref": "#/components/schemas/Auth"
+              }
+            }
+          },
+          "required": true
+        },
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "description": "Write your username",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "default": null
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "default": null
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": ""
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/user/addMovie": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Save movie in favorites",
+        "description": "Add a movie into array of favorite movies",
+        "operationId": "addMovie",
+        "requestBody": {
+          "description": "Pass an objectID to field, to save your movie in array",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": ""
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/Pet"
+                "$ref": ""
               }
             },
             "application/x-www-form-urlencoded": {
               "schema": {
-                "$ref": "#/components/schemas/Pet"
+                "$ref": ""
               }
             }
           },
@@ -598,12 +522,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": ""
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "$ref": ""
                 }
               }
             }
@@ -611,15 +535,7 @@
           "405": {
             "description": "Invalid input"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       }
     }
   },
@@ -654,6 +570,51 @@
                 "example": 0
               }
             }
+          }
+        }
+      },
+      "User": {
+        "required": [
+          "username"
+        ],
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "solo"
+          },
+          "role": {
+            "type": "string",
+            "example": "admin"
+          },
+          "email": {
+            "type": "string",
+            "example": "211623@astanait.edu.kz"
+          },
+          "avatar_url": {
+            "type": "string"
+          }
+        }
+      },
+      "Auth": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "solo"
+          },
+          "password": {
+            "type": "string",
+            "example": "password"
+          }
+        }
+      },
+      "getUser": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "solo"
           }
         }
       }
