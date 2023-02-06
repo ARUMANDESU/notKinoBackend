@@ -4,6 +4,8 @@
     "title": "Not Kino API",
     "version": "1.0.0"
   },
+
+
   "tags": [
     {
       "name": "movie",
@@ -72,7 +74,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": ""
+                  "type": "array",
+                  "items":
+                    {
+                      "$ref": "#/components/schemas/Movie"
+                    }
                 }
               }
             }
@@ -129,7 +135,12 @@
           "405": {
             "description": "Invalid input"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/movie/kp": {
@@ -140,39 +151,38 @@
         "summary": "imports movies from another db",
         "description": "imports movies from kinopoisk database in json-format",
         "operationId": "addMovies",
-        "requestBody": {
-          "description": "Create a new pet in the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": ""
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": ""
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": ""
-              }
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limiting",
+            "required": false,
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "default": 10
             }
           },
-          "required": true
-        },
+          {
+            "name": "rate",
+            "in": "query",
+            "description": "Filter by rating",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "default": null
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": ""
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": ""
+                  "type": "array",
+                  "$ref": "#/components/schemas/Movie"
                 }
               }
             }
@@ -183,28 +193,33 @@
         },
         "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
+            "bearerAuth": []
           }
         ]
       }
     },
-    "/movie/:id": {
+    "/movie/{id}": {
       "patch": {
         "tags": [
           "movie"
         ],
-        "summary": "Updates movie ID",
-        "description": "",
+        "summary": "Updates movie",
+        "description": "Only moderators and admins can patch",
         "operationId": "patchMovie",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of movie",
+            "required": true
+          }
+        ],
         "requestBody": {
-          "description": "Create a new pet in the store",
+          "description": "Not All of this fields are required",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": ""
+                "$ref": "#/components/schemas/Movie"
               }
             }
           },
@@ -215,13 +230,8 @@
             "description": "Successful operation",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": ""
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": ""
+                "example": {
+                  "successful": true
                 }
               }
             }
@@ -229,7 +239,12 @@
           "405": {
             "description": "Invalid input"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -238,29 +253,19 @@
         "summary": "Finds and delete existing movie",
         "description": "",
         "operationId": "deleteMovie",
-        "requestBody": {
-          "description": "Create a new pet in the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": ""
-              }
-            }
-          },
-          "required": true
-        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": ""
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": ""
+                "example": {
+                  "successful": true
                 }
               }
             }
@@ -268,33 +273,33 @@
           "405": {
             "description": "Invalid input"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       },
       "get": {
         "tags": [
           "movie"
         ],
-        "summary": "Checks if movie exists",
+        "summary": "Get movie Data",
         "description": "",
         "operationId": "getMovie",
-        "requestBody": {
-          "description": "Create a new pet in the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": ""
-              }
-            }
-          },
-          "required": true
-        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": ""
+                  "$ref": "#/components/schemas/Successful"
                 }
               }
             }
@@ -331,7 +336,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": ""
+                  "$ref": "#/components/schemas/Successful"
                 }
               }
             }
@@ -342,7 +347,7 @@
         }
       }
     },
-    "/user/:username": {
+    "/user/{username}": {
       "get": {
         "tags": [
           "user"
@@ -352,9 +357,9 @@
         "parameters": [
           {
             "name": "username",
-            "in": "query",
-            "description": "Write username",
-            "required": false,
+            "in": "path",
+            "description": "Enter username",
+            "required": true,
             "explode": true,
             "schema": {
               "type": "string",
@@ -362,30 +367,14 @@
             }
           }
         ],
-        "operationId": "getUser",
-        "requestBody": {
-          "description": "Checking if the user exists in database by it's username",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/getUser"
-              }
-            }
-          },
-          "required": true
-        },
+        "operationId": "User",
         "responses": {
           "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": ""
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": ""
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
@@ -393,15 +382,7 @@
           "405": {
             "description": "Invalid input"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       }
     },
     "/user/activate": {
@@ -410,15 +391,19 @@
           "user"
         ],
         "summary": "Activates account",
-        "description": "Sends JWT token",
+        "description": "Sends uuid activation token to activate account",
         "operationId": "activate",
+        "parameters": [{
+          "name": "token",
+          "in": "query"
+        }],
         "responses": {
           "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": ""
+                  "$ref": "#/components/schemas/Successful"
                 }
               }
             }
@@ -441,7 +426,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Auth"
+                "$ref": "#/components/schemas/UserAuth"
               }
             }
           },
@@ -535,39 +520,155 @@
           "405": {
             "description": "Invalid input"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     }
   },
   "components": {
     "schemas": {
+      "Successful":{
+        "type": "object",
+        "properties": {
+          "successful": {
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
       "Movie": {
         "required": [
-          "name",
-          "photoUrls"
+          "title",
+          "description",
+          "rate",
+          "votes",
+          "length",
+          "year",
+          "type"
         ],
         "type": "object",
         "properties": {
           "title": {
             "type": "string",
-            "example": "Moana"
+            "unique": true
           },
           "description": {
-            "type": "string",
-            "example": "Someone ..."
+            "type": "string"
           },
-          "rate": {"type": "object",
-            "xml": {
-              "wrapped": true
-            },
-            "items": {
+          "rate": {
+            "type": "object",
+            "required": [
+              "kp",
+              "imdb"
+            ],
+            "properties": {
               "kp": {
-                "type": "float",
-                "example": 0
+                "type": "number",
+                "default": 0
               },
               "imdb": {
-                "type": "float",
-                "example": 0
+                "type": "number",
+                "default": 0
+              }
+            }
+          },
+          "votes": {
+            "type": "object",
+            "required": [
+              "kp",
+              "imdb"
+            ],
+            "properties": {
+              "kp": {
+                "type": "number",
+                "default": 0
+              },
+              "imdb": {
+                "type": "number",
+                "default": 0
+              }
+            }
+          },
+          "watchability": {
+            "type": "object",
+            "properties": {
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "logo",
+                    "name",
+                    "url"
+                  ],
+                  "properties": {
+                    "logo": {
+                      "type": "object",
+                      "required": [
+                        "url"
+                      ],
+                      "properties": {
+                        "url": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "length": {
+            "type": "number"
+          },
+          "year": {
+            "type": "number"
+          },
+          "type": {
+            "type": "string"
+          },
+          "poster": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "previewUrl": {
+                "type": "string"
+              }
+            }
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "date",
+                "user_id",
+                "text"
+              ],
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "format": "date-time",
+                  "default": "now"
+                },
+                "user_id": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                }
               }
             }
           }
@@ -579,24 +680,52 @@
         ],
         "type": "object",
         "properties": {
-          "username": {
+          "_id": {
             "type": "string",
-            "example": "solo"
-          },
-          "role": {
-            "type": "string",
-            "example": "admin"
+            "unique": true,
+            "required": true
           },
           "email": {
             "type": "string",
-            "example": "211623@astanait.edu.kz"
+            "unique": true,
+            "required": true
+          },
+          "username": {
+            "type": "string",
+            "unique": true,
+            "required": true
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": ["user"]
           },
           "avatar_url": {
-            "type": "string"
+            "type": "string",
+            "unique": false,
+            "required": false
+          },
+          "favorites": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "movie_id": {
+                  "type": "string"
+                }
+              }
+            },
+            "default": []
           }
         }
       },
-      "Auth": {
+      "UserAuth": {
+        "required": [
+          "username",
+          "password"
+        ],
         "type": "object",
         "properties": {
           "username": {
@@ -609,14 +738,34 @@
           }
         }
       },
-      "getUser": {
+      "UserRegister": {
+        "required": [
+          "username",
+          "email",
+          "password"
+        ],
         "type": "object",
         "properties": {
           "username": {
             "type": "string",
             "example": "solo"
+          },
+          "email": {
+            "type": "string",
+            "example": "solo@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "password"
           }
         }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }

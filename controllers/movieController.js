@@ -36,7 +36,7 @@ class movieController {
             });
         } catch (e) {
             console.log(e);
-            res.status(400).json({ message: "Error" });
+            res.status(400).json({ successful: false, message: "Error" });
         }
     }
     async getMovieHandler(req, res) {
@@ -44,14 +44,14 @@ class movieController {
             const movie_id = req.params.id;
             await Movie.findOne({ _id: movie_id })
                 .then((movie) => {
-                    res.json(movie);
+                    res.json({ successful: true });
                 })
                 .catch((e) => {
                     console.log(e);
                 });
         } catch (e) {
             console.log(e);
-            res.status(400).json({ message: "Error" });
+            res.status(400).json({ successful: false, message: "Error" });
         }
     }
 
@@ -61,14 +61,14 @@ class movieController {
 
             await Movie.updateOne({ _id: movie_id }, { $set: req.body })
                 .then((movie) => {
-                    res.json(movie);
+                    res.json({ successful: true });
                 })
                 .catch((e) => {
                     res.status(400);
                 });
         } catch (e) {
             console.log(e);
-            res.status(400).json({ message: "Error" });
+            res.status(400).json({ successful: false, message: "Error" });
         }
     }
     async deleteMovieHandler(req, res) {
@@ -76,14 +76,14 @@ class movieController {
             const movie_id = req.params.id;
             await Movie.findOneAndDelete({ _id: movie_id })
                 .then((movie) => {
-                    res.json(movie);
+                    res.json({ successful: true });
                 })
                 .catch((e) => {
                     res.status(400);
                 });
         } catch (e) {
             console.log(e);
-            res.status(400).json({ message: "Error" });
+            res.status(400).json({ successful: false, message: "Error" });
         }
     }
 
@@ -112,7 +112,7 @@ class movieController {
                 });
         } catch (e) {
             console.log(e);
-            res.status(400).json({ message: "Error" });
+            res.status(400).json({ successful: false, message: "Error" });
         }
     }
 
@@ -158,12 +158,13 @@ class movieController {
                         movies.push(temp);
                     }
                 });
-                res.json(movies);
+
                 await Movie.insertMany(movies);
+                res.json(movies);
             });
         } catch (e) {
             console.log(e);
-            res.status(400).json({ message: "Error" });
+            res.status(400).json({ successful: false, message: "Error" });
         }
     }
 }
