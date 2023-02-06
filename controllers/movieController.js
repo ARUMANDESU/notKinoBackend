@@ -44,7 +44,7 @@ class movieController {
             const movie_id = req.params.id;
             await Movie.findOne({ _id: movie_id })
                 .then((movie) => {
-                    res.json({ successful: true });
+                    res.json(movie);
                 })
                 .catch((e) => {
                     console.log(e);
