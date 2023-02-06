@@ -104,7 +104,11 @@ class movieController {
             await Movie.find(req.query)
                 .limit(parseInt(limit))
                 .then((movies) => {
-                    res.json(movies);
+                    res.json(
+                        movies.sort(function (a, b) {
+                            return b.rate.kp - a.rate.kp;
+                        })
+                    );
                 })
                 .catch((e) => {
                     console.log(e);
@@ -165,6 +169,19 @@ class movieController {
         } catch (e) {
             console.log(e);
             res.status(400).json({ successful: false, message: "Error" });
+        }
+    }
+
+    async searchHandler(req, res) {
+        try {
+            const payload = req.body.payload.trim();
+            const movies = await Movie.find({
+                title: { $regex: new RegExp("^" + payload + ".*", "i") },
+            }).limit(15);
+
+            res.json(movies);
+        } catch (e) {
+            console.log(e);
         }
     }
 }

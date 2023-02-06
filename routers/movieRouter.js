@@ -7,6 +7,8 @@ const router = express.Router();
 router.get("/:id", movieController.getMovieHandler);
 router.get("/", movieController.listMovieHandler);
 
+router.post("/search", movieController.searchHandler);
+
 router.use(roleMiddleware(["admin"])); // after this line routers below use middleware "roleMiddleware(["admin"])". Routers up to this line do not use this middleware
 
 router.post("/kp", movieController.importFromKP);
