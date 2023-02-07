@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.office365.com",
+    host: process.env.MAILER_HOST,
     port: 587,
     auth: {
         user: process.env.MAILER_USERNAME,
