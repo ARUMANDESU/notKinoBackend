@@ -15,7 +15,7 @@ mongoose.set("strictQuery", false);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(
     cors({
-        origin: ["http://localhost:3000", "*"],
+        origin: [process.env.FRONT_URL, "*"],
         credentials: true,
     })
 );
@@ -27,5 +27,4 @@ mongoose
     .connect(process.env.DB_URL)
     .then((res) => console.log("Connected to DB"))
     .catch((error) => console.log(error));
-
 app.listen(port, () => console.log(`Server listening on port ${port}!`));
