@@ -119,7 +119,7 @@ class userController {
             }
             await User.findOneAndUpdate(
                 { _id: id },
-                { favorites: { $addToSet: { movieId: movie_id } } }
+                { $push: { favorites: movie_id } }
             ).then((user) => {
                 res.json({ successful: true });
             });
