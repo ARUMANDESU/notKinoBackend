@@ -10,7 +10,11 @@ const router = require("./routers/router");
 const app = express();
 app.use(
     cors({
-        origin: [process.env.FRONT_URL, "https://not-kino-frontend.vercel.app"],
+        origin: [
+            "https://not-kino-frontend.vercel.app",
+            "*",
+            process.env.FRONT_URL,
+        ],
         credentials: true,
     })
 );
