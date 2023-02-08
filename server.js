@@ -15,7 +15,7 @@ mongoose.set("strictQuery", false);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(
     cors({
-        origin: [process.env.FRONT_URL, "*"],
+        origin: [process.env.FRONT_URL, "https://not-kino-frontend.vercel.app"],
         credentials: true,
     })
 );
