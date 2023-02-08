@@ -11,8 +11,10 @@ const app = express();
 app.use(
     cors({
         origin: [
-            "https://not-kino-frontend.vercel.app",
             "*",
+            "https://not-kino-frontend.vercel.app",
+            "https://not-kino-frontend-arumandesu.vercel.app",
+            "https://not-kino-frontend-git-master-arumandesu.vercel.app",
             process.env.FRONT_URL,
         ],
         credentials: true,
