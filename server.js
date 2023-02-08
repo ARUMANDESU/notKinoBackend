@@ -8,17 +8,18 @@ const swaggerDocument = require("./swagger.json");
 const router = require("./routers/router");
 
 const app = express();
-const port = process.env.PORT || 4000;
-
-dotenv.config();
-mongoose.set("strictQuery", false);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(
     cors({
         origin: [process.env.FRONT_URL, "https://not-kino-frontend.vercel.app"],
         credentials: true,
     })
 );
+const port = process.env.PORT || 4000;
+
+dotenv.config();
+mongoose.set("strictQuery", false);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(router);
