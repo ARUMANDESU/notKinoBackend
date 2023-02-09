@@ -6,7 +6,7 @@ const mailer = require("../utils/mailer/nodemailer");
 const { generateAccessToken } = require("../utils/jwt");
 
 class userController {
-    async getUserHandler(req, res) {
+    async getUserHandler(req, res, next) {
         try {
             const user_name = req.params.username;
             await User.findOne({ username: user_name })
@@ -14,14 +14,13 @@ class userController {
                     res.json(userOutput(user));
                 })
                 .catch((e) => {
-                    console.log(e);
+                    next(e);
                 });
         } catch (e) {
-            console.log(e);
-            res.status(400).json({ message: "Error" });
+            next(e);
         }
     }
-    async registerUserHandler(req, res) {
+    async registerUserHandler(req, res, next) {
         try {
             let user = req.body;
 
@@ -41,17 +40,15 @@ class userController {
                         res.json({ successful: true });
                     });
                 })
-                .catch((err) => {
-                    console.log(err);
-                    res.status(400).json({ message: `Error : ${err}` });
+                .catch((e) => {
+                    next(e);
                 });
         } catch (e) {
-            console.log(e);
-            res.status(400).json({ message: "Error" });
+            next(e);
         }
     }
 
-    async loginUserHandler(req, res) {
+    async loginUserHandler(req, res, next) {
         try {
             const { username, password } = req.body;
             const user = await User.findOne({
@@ -59,30 +56,25 @@ class userController {
                 activated: true,
             });
             if (!user) {
-                return res
-                    .status(400)
-                    .json({ message: `Пользователь ${username} не найден` });
+                throw new Error("User is not found");
             }
             const validPassword = bcrypt.compareSync(
                 password,
                 user.hashed_password
             );
             if (!validPassword) {
-                return res
-                    .status(400)
-                    .json({ message: "Введен неверный пароль" });
+                throw new Error("Invalid password");
             }
             const token = generateAccessToken(user._id, user.roles);
 
             res.header("Authorization", `Bearer ${token}`);
             return res.json(userOutput(user));
         } catch (e) {
-            console.log(e);
-            res.status(400).json({ message: "Error" });
+            next(e);
         }
     }
 
-    async activateAccountHandler(req, res) {
+    async activateAccountHandler(req, res, next) {
         try {
             const { email, token } = req.query;
 
@@ -104,18 +96,17 @@ class userController {
                 })
                 .catch((err) => console.error(err.message));
         } catch (e) {
-            console.log(e);
-            res.status(400).json({ message: "Error" });
+            next(e);
         }
     }
 
-    async addToFavorites(req, res) {
+    async addToFavorites(req, res, next) {
         try {
             const { id, roles } = req.body.user;
             const movie_id = req.params.id;
             const movie = await Movie.findOne({ _id: movie_id });
             if (!movie) {
-                res.status(400).json({ message: "Movie is not exist!" });
+                throw new Error("Movie is not exist!");
             }
             await User.findOneAndUpdate(
                 { _id: id },
@@ -124,8 +115,7 @@ class userController {
                 res.json({ successful: true });
             });
         } catch (e) {
-            console.log(e);
-            res.status(400).json({ message: `Error: ${e}`, successful: false });
+            next(e);
         }
     }
 }

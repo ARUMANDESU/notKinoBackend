@@ -2,7 +2,7 @@ const Movie = require("../models/movie");
 const { Validator } = require("node-input-validator");
 const axios = require("axios");
 class movieController {
-    async createMovieHandler(req, res) {
+    async createMovieHandler(req, res, next) {
         try {
             const v = new Validator(req.body, {
                 title: "required|string",
@@ -39,7 +39,7 @@ class movieController {
             res.status(400).json({ successful: false, message: "Error" });
         }
     }
-    async getMovieHandler(req, res) {
+    async getMovieHandler(req, res, next) {
         try {
             const movie_id = req.params.id;
             await Movie.findOne({ _id: movie_id })
@@ -50,12 +50,11 @@ class movieController {
                     console.log(e);
                 });
         } catch (e) {
-            console.log(e);
-            res.status(400).json({ successful: false, message: "Error" });
+            next(e);
         }
     }
 
-    async updateMovieHandler(req, res) {
+    async updateMovieHandler(req, res, next) {
         try {
             const movie_id = req.params.id;
 
@@ -67,11 +66,10 @@ class movieController {
                     res.status(400);
                 });
         } catch (e) {
-            console.log(e);
-            res.status(400).json({ successful: false, message: "Error" });
+            next(e);
         }
     }
-    async deleteMovieHandler(req, res) {
+    async deleteMovieHandler(req, res, next) {
         try {
             const movie_id = req.params.id;
             await Movie.findOneAndDelete({ _id: movie_id })
@@ -82,12 +80,11 @@ class movieController {
                     res.status(400);
                 });
         } catch (e) {
-            console.log(e);
-            res.status(400).json({ successful: false, message: "Error" });
+            next(e);
         }
     }
 
-    async listMovieHandler(req, res) {
+    async listMovieHandler(req, res, next) {
         try {
             let limit = req.query.limit || 10;
             delete req.query.limit;
@@ -111,16 +108,14 @@ class movieController {
                     );
                 })
                 .catch((e) => {
-                    console.log(e);
-                    res.status(400);
+                    next(e);
                 });
         } catch (e) {
-            console.log(e);
-            res.status(400).json({ successful: false, message: "Error" });
+            next(e);
         }
     }
 
-    async importFromKP(req, res) {
+    async importFromKP(req, res, next) {
         try {
             const { rate, limit } = req.query;
             const url = `https://api.kinopoisk.dev/movie/?token=${process.env.KINOPOISK_API_TOKEN}&rate=${rate}&limit=${limit}`;
@@ -167,12 +162,11 @@ class movieController {
                 res.json(movies);
             });
         } catch (e) {
-            console.log(e);
-            res.status(400).json({ successful: false, message: "Error" });
+            next(e);
         }
     }
 
-    async searchHandler(req, res) {
+    async searchHandler(req, res, next) {
         try {
             const payload = req.body.payload.trim();
             const movies = await Movie.find({
@@ -181,7 +175,7 @@ class movieController {
 
             res.json(movies);
         } catch (e) {
-            console.log(e);
+            next(e);
         }
     }
 }

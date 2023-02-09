@@ -5,17 +5,16 @@ const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
 const router = require("./routers/router");
+const {
+    logErrors,
+    clientErrorHandler,
+    errorHandler,
+} = require("./services/errors");
 
 const app = express();
 app.use(
     cors({
-        origin: [
-            "*",
-            "https://not-kino-frontend.vercel.app",
-            "https://not-kino-frontend-arumandesu.vercel.app",
-            "https://not-kino-frontend-git-master-arumandesu.vercel.app",
-            process.env.FRONT_URL,
-        ],
+        origin: ["*", "http://localhost:3000"],
         credentials: true,
     })
 );
@@ -28,6 +27,10 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(router);
+
+app.use(logErrors);
+app.use(clientErrorHandler);
+app.use(errorHandler);
 
 mongoose
     .connect(process.env.DB_URL)

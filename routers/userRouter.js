@@ -1,6 +1,7 @@
 const express = require("express");
 const userController = require("../controllers/userController");
 const { isAuthorizedMiddleware } = require("../services/middlewares");
+const errorHandler = require("../services/errors");
 const router = express.Router();
 
 router.get("/activate/", userController.activateAccountHandler);
@@ -13,4 +14,5 @@ router.post(
     isAuthorizedMiddleware(),
     userController.addToFavorites
 );
+
 module.exports = router;
