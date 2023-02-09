@@ -10,7 +10,7 @@ const generateAccessToken = (id, roles) => {
 };
 
 const decodeAccessToken = (req) => {
-    const token = req.headers.authorization.split(" ")[1];
+    const token = req.cookies.access_token;
     if (!token) {
         return null;
     }

@@ -4,6 +4,8 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
+const cookieParser = require("cookie-parser");
+
 const router = require("./routers/router");
 const {
     logErrors,
@@ -23,7 +25,7 @@ const port = process.env.PORT || 4000;
 dotenv.config();
 mongoose.set("strictQuery", false);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(router);

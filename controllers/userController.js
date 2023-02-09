@@ -67,8 +67,13 @@ class userController {
             }
             const token = generateAccessToken(user._id, user.roles);
 
-            res.header("Authorization", `Bearer ${token}`);
-            return res.json(userOutput(user));
+            // res.header("Authorization", `Bearer ${token}`);
+            return res
+                .cookie("access_token", token, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === "production",
+                })
+                .json(userOutput(user));
         } catch (e) {
             next(e);
         }
